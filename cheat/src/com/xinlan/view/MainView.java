@@ -1,5 +1,8 @@
 package com.xinlan.view;
 
+import com.xinlan.cheat.role.Player;
+import com.xinlan.cheat.role.Teacher;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -21,6 +24,9 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 	private Resources res = this.getResources();
 
 	public static int GAME_STATE = 1;
+	
+	public Player player;
+	public Teacher teacher;
 	
 	public MainView(Context context) {
 		super(context);
@@ -48,6 +54,8 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 	 */
 	public void init() {
 		GAME_STATE = 1;
+		player = new Player(this);
+		teacher= new Teacher(this);
 	}
 
 	public void draw() {
@@ -57,6 +65,8 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 				switch (GAME_STATE) {
 				case 1:
 					canvas.drawColor(Color.WHITE);
+					player.draw(canvas);
+					teacher.draw(canvas);
 					break;
 				}
 			}// end if
@@ -69,6 +79,8 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 	}
 
 	public void logic() {
+		player.logic();
+		teacher.logic();
 	}
 
 	public void run() {
