@@ -34,19 +34,26 @@ public class Player {
 	private int srcWidth, srcHeight;
 	private int frame,frameDelay=0;
 
+	private int[][] map;
+	private float cube_width, cube_height;
+	
 	public Player(MainView context) {
 		this.context = context;
+		map=context.room.map;
+		cube_width=context.room.cube_width;
+		cube_height=context.room.cube_height;
 		mBitmap = BitmapFactory.decodeResource(context.getResources(),
 				R.drawable.player);
 		dirStatus = RIGHT;// 面向右方
-		width = MainView.screenW / (context.room.COL);
-		height = 2*MainView.screenH / (context.room.ROW);
+		width = cube_width;
+		height = cube_height+cube_height/2;
 		srcWidth = mBitmap.getWidth() / 4;
 		srcHeight = mBitmap.getHeight() / 4;
 		frame = 0;
+		
 		src = new Rect();
 		calculateSrcRect();
-		top=0;//context.room.cube_height;
+		top=cube_height/2;//context.room.cube_height;
 		dst = new RectF(left, top, left + width, top +height);
 	}
 
@@ -62,10 +69,10 @@ public class Player {
 		if(left>MainView.screenW-width){
 			left=MainView.screenW-width;
 		}
-		int grid_x=(int)((left+context.room.cube_width)/context.room.cube_width);
-		int grid_y=(int)((top+context.room.cube_height)/context.room.cube_height);
+		int grid_x=(int)((left+cube_width)/cube_width);
+		int grid_y=(int)((top+cube_height)/cube_height);
 		
-		if(context.room.map[grid_y][grid_x]!=0){
+		if(map[grid_y][grid_x]!=0){
 			left-=2;
 		}
 	}
