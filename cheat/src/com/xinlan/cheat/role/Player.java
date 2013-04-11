@@ -32,7 +32,7 @@ public class Player {
 	private RectF dst;// 显示区域
 	private Bitmap mBitmap;// 位图数据
 	private int srcWidth, srcHeight;
-	private int frame;
+	private int frame,frameDelay=0;
 
 	public Player(MainView context) {
 		this.context = context;
@@ -40,18 +40,34 @@ public class Player {
 				R.drawable.player);
 		dirStatus = RIGHT;// 面向右方
 		width = MainView.screenW / (context.room.COL);
-		height = MainView.screenH / (context.room.ROW);
+		height = 2*MainView.screenH / (context.room.ROW);
 		srcWidth = mBitmap.getWidth() / 4;
 		srcHeight = mBitmap.getHeight() / 4;
 		frame = 0;
 		src = new Rect();
 		calculateSrcRect();
-		dst = new RectF(left, top, left + width, top + height);
+		top=0;//context.room.cube_height;
+		dst = new RectF(left, top, left + width, top +height);
 	}
 
 	public void logic() {
-		frame++;
+		updateFrame();//更新帧动画
 		calculateSrcRect();
+		dst.left = left;
+		dst.top = top;
+		dst.bottom = dst.top + height;
+		dst.right = dst.left + height;
+		
+		left+=2;
+		if(left>MainView.screenW-width){
+			left=MainView.screenW-width;
+		}
+		int grid_x=(int)((left+context.room.cube_width)/context.room.cube_width);
+		int grid_y=(int)((top+context.room.cube_height)/context.room.cube_height);
+		
+		if(context.room.map[grid_y][grid_x]!=0){
+			left-=2;
+		}
 	}
 
 	public void draw(Canvas canvas) {
@@ -62,6 +78,17 @@ public class Player {
 		
 	}
 
+	private void updateFrame(){
+		frameDelay++;
+		if(frameDelay>=5){
+			frameDelay=0;
+			frame++;
+		}
+		if(frame>=FRAME_NUM){
+			frame=0;
+		}
+	}
+	
 	private void calculateSrcRect() {
 		src.left = frame * srcWidth;
 		src.top = dirStatus * srcHeight;

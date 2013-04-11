@@ -96,8 +96,8 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 			long end = System.currentTimeMillis();
 			// System.out.println(end - start);
 			try {
-				if (end - start < 1) {
-					Thread.sleep(1 - (end - start));
+				if (end - start < 10) {
+					Thread.sleep(10 - (end - start));
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
