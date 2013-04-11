@@ -26,7 +26,7 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 
 	public static int GAME_STATE = 1;
 
-	// public Player player;
+	public Player player;
 	// public Teacher teacher;
 	public Classroom room;
 
@@ -59,7 +59,9 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 		// player = new Player(this);
 		// teacher= new Teacher(this);
 		room = new Classroom(this);
-		room.logic();
+		player = new Player(this);
+		//room.logic();
+		
 	}
 
 	public void draw() {
@@ -68,10 +70,8 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 			if (canvas != null) {
 				switch (GAME_STATE) {
 				case 1:
-					canvas.drawColor(Color.WHITE);
-					// player.draw(canvas);
-					// teacher.draw(canvas);
 					room.draw(canvas);
+					player.draw(canvas);
 					break;
 				}
 			}// end if
@@ -84,7 +84,7 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 	}
 
 	public void logic() {
-		// player.logic();
+		player.logic();
 		// teacher.logic();
 	}
 

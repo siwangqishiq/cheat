@@ -16,21 +16,21 @@ public class Classroom {
 	public static float cube_width, cube_height;
 	private MainView context;
 	public int[][] map = //
-	{ { 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0 },
+	{ { 0, 0, 0, 0, 7, 0, 0, 0, 7, 7, 7, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0 },
 			{ 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 0 },
 			{ 0, 0, 0, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 0, 0, 0, 0, 0 },
+			{ 0, 0, 7, 0, 0, 0, 7, 7, 7, 7, 0, 0, 0, 0, 0 },
 			{ 0, 0, 7, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 7, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 7, 7, 7, 7, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0 },
 			{ 0, 7, 0, 0, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			{ 0, 7, 0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 0, 7, 0 },
-			{ 0, 7, 0, 0, 0, 0, 7, 7, 0, 0, 0, 0, 0, 7, 0 },
+			{ 0, 7, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 7, 0 },
 			{ 0, 7, 0, 0, 0, 0, 0, 7, 7, 7, 0, 0, 0, 7, 0 },
-			{ 0, 7, 0, 0, 0, 0, 0, 0, 0, 7, 7, 0, 0, 7, 0 },
-			{ 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 0, 7, 0 },
+			{ 0, 7, 0, 0, 7, 0, 0, 0, 0, 7, 7, 0, 0, 7, 0 },
+			{ 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 0, 7, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 7, 0 },
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0 },
 			{ 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 0, 7, 0 },
@@ -44,7 +44,7 @@ public class Classroom {
 
 	private Paint paint;
 	private int start_x = 0, start_y = 0;
-	private int goto_x = 0, goto_y = 22;
+	private int goto_x = 11, goto_y = 23;
 	private Stack<Point> path;
 	private AStar mAStar;
 		
@@ -71,7 +71,10 @@ public class Classroom {
 				}
 			}// end for j
 		}// end for i
-
+		//drawPath(canvas);
+	}
+	
+	private void drawPath(Canvas canvas){
 		paint.setColor(Color.RED);
 		float pre_x = 0, pre_y = 0;
 		for (int i = 0; i < path.size(); i++) {
@@ -95,7 +98,7 @@ public class Classroom {
 		goto_x = (int) (x / cube_width);
 		goto_y = (int) (y / cube_height);
 	}
-
+	
 	public void logic() {
 		long t1=System.currentTimeMillis();
 		path=mAStar.mazePath(start_x, start_y, goto_x, goto_y);

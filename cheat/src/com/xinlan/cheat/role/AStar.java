@@ -21,7 +21,7 @@ public class AStar {
 	}
 
 	/**
-	 * ] 输入开始点 结束点 自动计算最优路径
+	 * 输入开始点 结束点 自动计算最优路径
 	 * 
 	 * @param startx
 	 * @param starty
@@ -30,11 +30,13 @@ public class AStar {
 	 * @return
 	 */
 	public Stack<Point> mazePath(int startx, int starty, int endx, int endy) {
+		if(!canGo(endx, endy)){
+			return null;
+		}
 		this.startx = startx;
 		this.starty = starty;
 		this.endx = endx;
 		this.endy = endy;
-
 		retList.clear();// 清空原有返回栈
 		openList.clear();// 清空原有开启列表
 		closeList.clear();// 清空原有关闭列表
@@ -56,7 +58,7 @@ public class AStar {
 			retList.push(p);
 			p = p.parent;// 寻找父节点
 		}
-		System.out.println(retList.size());
+		//System.out.println(retList.size());
 		return retList;
 	}
 
@@ -78,15 +80,15 @@ public class AStar {
 		if (!isInList(newx, newy, closeList) && canGo(newx, newy)) {// 右侧点
 			if (isInList(newx, newy, openList)) {// 新增节点在开放列表中
 				// 比较新的G值与原有G值
-				int newg = pt.f + 10 + getHuffmanValue(newx, newy, endx, endy);
+				int newf = pt.g + 10 + getManhattanValue(newx, newy, endx, endy);
 				Point p = getPointFromList(newx, newy, openList);
-				if (newg < p.g) {// 新的G值小于原来的
+				if (newf < p.f) {// 新的G值小于原来的
 					p.parent = pt;
 					p.f = pt.f + 10;
-					p.h = getHuffmanValue(newx, newy, endx, endy);
+					p.h = getManhattanValue(newx, newy, endx, endy);
 				}
 			} else {// 新增节点不在开放列表中
-				openList.add(new Point(newx, newy, pt.f + 10, getHuffmanValue(
+				openList.add(new Point(newx, newy, pt.f + 10, getManhattanValue(
 						newx, newy, endx, endy), pt));
 			}// end is inopenList
 		}
@@ -166,7 +168,7 @@ public class AStar {
 	}
 
 	/**
-	 * 求出两点之间霍夫曼距离
+	 * 求出两点之间曼哈顿距离
 	 * 
 	 * @param x
 	 * @param y
@@ -174,7 +176,7 @@ public class AStar {
 	 * @param endy
 	 * @return
 	 */
-	private int getHuffmanValue(int x, int y, int endx, int endy) {
+	private int getManhattanValue(int x, int y, int endx, int endy) {
 		return Math.abs(endx - x) + Math.abs(endy - y);
 	}
 }// end class
