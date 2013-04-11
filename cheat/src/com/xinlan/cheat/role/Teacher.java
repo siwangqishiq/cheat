@@ -45,6 +45,7 @@ public class Teacher {
 
 	public void logic() {
 		y+=dy;
+		
 		if(y<0 || y>300){
 			dy*=-1;
 		}

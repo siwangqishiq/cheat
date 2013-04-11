@@ -47,6 +47,7 @@ public class Player {
 	}
 
 	public void draw(Canvas canvas) {
+		
 		rectF.set(x - widthDiv2, y - heightDiv2, x + widthDiv2, y + heightDiv2);
 		canvas.drawRect(rectF, paint);
 	}

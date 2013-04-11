@@ -7,7 +7,7 @@ public class Common {
 	public static int genRand(int min, int max) {
 		return (new Random()).nextInt(max) % (max - min + 1) + min;
 	}
-
+	
 	public static int getFlag(double rotateSpeed) {
 		return rotateSpeed >= 0 ? 1 : -1;
 	}

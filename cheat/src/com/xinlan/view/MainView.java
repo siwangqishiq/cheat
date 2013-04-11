@@ -1,5 +1,6 @@
 package com.xinlan.view;
 
+import com.xinlan.cheat.role.Classroom;
 import com.xinlan.cheat.role.Player;
 import com.xinlan.cheat.role.Teacher;
 
@@ -24,10 +25,11 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 	private Resources res = this.getResources();
 
 	public static int GAME_STATE = 1;
-	
-	public Player player;
-	public Teacher teacher;
-	
+
+	// public Player player;
+	// public Teacher teacher;
+	public Classroom room;
+
 	public MainView(Context context) {
 		super(context);
 		this.context = context;
@@ -54,8 +56,10 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 	 */
 	public void init() {
 		GAME_STATE = 1;
-		player = new Player(this);
-		teacher= new Teacher(this);
+		// player = new Player(this);
+		// teacher= new Teacher(this);
+		room = new Classroom(this);
+		room.logic();
 	}
 
 	public void draw() {
@@ -65,8 +69,9 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 				switch (GAME_STATE) {
 				case 1:
 					canvas.drawColor(Color.WHITE);
-					player.draw(canvas);
-					teacher.draw(canvas);
+					// player.draw(canvas);
+					// teacher.draw(canvas);
+					room.draw(canvas);
 					break;
 				}
 			}// end if
@@ -79,8 +84,8 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 	}
 
 	public void logic() {
-		player.logic();
-		teacher.logic();
+		// player.logic();
+		// teacher.logic();
 	}
 
 	public void run() {
@@ -102,6 +107,7 @@ public class MainView extends SurfaceView implements Callback, Runnable {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		room.onTouch(event);
 		return true;
 	}
 
