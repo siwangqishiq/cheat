@@ -1,6 +1,9 @@
 package com.xinlan.cheat.role;
 
 import java.util.Stack;
+
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -44,18 +47,24 @@ public class Classroom {
 	private int start_x = 0, start_y = 0;
 	private int goto_x = 11, goto_y = 23;
 	private Stack<Point> path;
-	private AStar mAStar;
-		
+	private Bitmap mapBitmap;
+
 	public Classroom(MainView mainview) {
 		context = mainview;
 		cube_width = MainView.screenW / (float) COL;
 		cube_height = MainView.screenH / (float) ROW;
-		mAStar = new AStar(map);
 		paint = new Paint();
 		paint.setColor(Color.CYAN);
+		initMapBitmap();
 	}
 
-	public void draw(Canvas canvas) {
+	private void initMapBitmap() {
+		if (mapBitmap != null) {
+			return;
+		}
+		mapBitmap = Bitmap.createBitmap(MainView.screenW, MainView.screenH,
+				Config.ARGB_8888);
+		Canvas canvas = new Canvas(mapBitmap);
 		for (int i = 0; i < ROW; i++) {
 			for (int j = 0; j < COL; j++) {
 				if (map[i][j] == 0) {
@@ -69,10 +78,15 @@ public class Classroom {
 				}
 			}// end for j
 		}// end for i
-		//drawPath(canvas);
+		canvas = null;
+		System.gc();
 	}
-	
-	private void drawPath(Canvas canvas){
+
+	public void draw(Canvas canvas) {
+		canvas.drawBitmap(mapBitmap, 0, 0, null);
+	}
+
+	private void drawPath(Canvas canvas) {
 		paint.setColor(Color.RED);
 		float pre_x = 0, pre_y = 0;
 		for (int i = 0; i < path.size(); i++) {
@@ -92,15 +106,12 @@ public class Classroom {
 	}
 
 	public void onTouch(MotionEvent event) {
-		float x = event.getX(), y = event.getY();
-		goto_x = (int) (x / cube_width);
-		goto_y = (int) (y / cube_height);
+//		float x = event.getX(), y = event.getY();
+//		goto_x = (int) (x / cube_width);
+//		goto_y = (int) (y / cube_height);
 	}
-	
+
 	public void logic() {
-		long t1=System.currentTimeMillis();
-		path=mAStar.mazePath(start_x, start_y, goto_x, goto_y);
-		long t2=System.currentTimeMillis();
-		System.out.println("耗时--->"+(t2-t1));
+		
 	}
 }// end class

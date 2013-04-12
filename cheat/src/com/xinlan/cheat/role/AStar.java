@@ -21,6 +21,28 @@ public class AStar {
 	}
 
 	/**
+	 * 返回队列路径
+	 * 
+	 * @param startx
+	 * @param starty
+	 * @param endx
+	 * @param endy
+	 * @return
+	 */
+	public LinkedList<Point> mazePathQueue(int startx, int starty, int endx,
+			int endy) {
+		Stack<Point> ret = mazePath(startx, starty, endx, endy);
+		if (ret == null) {
+			return null;
+		}
+		LinkedList<Point> queue = new LinkedList<Point>();
+		while (!ret.isEmpty()) {
+			queue.add(ret.pop());
+		}
+		return queue;
+	}
+
+	/**
 	 * 输入开始点 结束点 自动计算最优路径
 	 * 
 	 * @param startx
@@ -30,7 +52,7 @@ public class AStar {
 	 * @return
 	 */
 	public Stack<Point> mazePath(int startx, int starty, int endx, int endy) {
-		if(!canGo(endx, endy)){
+		if (!canGo(endx, endy)) {
 			return null;
 		}
 		this.startx = startx;
@@ -58,7 +80,6 @@ public class AStar {
 			retList.push(p);
 			p = p.parent;// 寻找父节点
 		}
-		//System.out.println(retList.size());
 		return retList;
 	}
 
@@ -80,7 +101,8 @@ public class AStar {
 		if (!isInList(newx, newy, closeList) && canGo(newx, newy)) {// 右侧点
 			if (isInList(newx, newy, openList)) {// 新增节点在开放列表中
 				// 比较新的G值与原有G值
-				int newf = pt.g + 10 + getManhattanValue(newx, newy, endx, endy);
+				int newf = pt.g + 10
+						+ getManhattanValue(newx, newy, endx, endy);
 				Point p = getPointFromList(newx, newy, openList);
 				if (newf < p.f) {// 新的G值小于原来的
 					p.parent = pt;
@@ -88,8 +110,8 @@ public class AStar {
 					p.h = getManhattanValue(newx, newy, endx, endy);
 				}
 			} else {// 新增节点不在开放列表中
-				openList.add(new Point(newx, newy, pt.f + 10, getManhattanValue(
-						newx, newy, endx, endy), pt));
+				openList.add(new Point(newx, newy, pt.f + 10,
+						getManhattanValue(newx, newy, endx, endy), pt));
 			}// end is inopenList
 		}
 	}
